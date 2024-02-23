@@ -27,6 +27,14 @@ with font-awesome or any other icon font library -->
             </ul>
         </li>
         <li class="nav-item">
+            <a href="{{ route('dashboard.categories.index') }}" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                    Categories
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>

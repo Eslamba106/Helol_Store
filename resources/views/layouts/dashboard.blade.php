@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Starter</title>
+    <title>{{ config('app.name') }}</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -174,21 +174,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="index3.html" class="brand-link">
                 <img src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">AdminLTE 3</span>
+                <span class="brand-text font-weight-light">{{ config('app.name') }}</span>
             </a>
 
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
+                @auth
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
                         <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
                             alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">{{ $user }}</a>
+                        <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                        |   <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            {{-- <input type="hidden" name="_token" value="{{ csrf_token() }}"> --}}
+                            {{-- {{ csrf_field() }} --}}
+                            <button type="submit" class="btn btn-sm btn-outline-primary">Logout</button>
+                        </form>
+                        {{-- <a href="{{ route('logout') }}">Logout</a> --}}
                     </div>
                 </div>
+                @endauth
                 <!-- SidebarSearch Form -->
                 <div class="form-inline">
                     <div class="input-group" data-widget="sidebar-search">
@@ -258,7 +267,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 Anything you want
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
+            <strong>Copyright &copy; 2023-<?php $mytime = Carbon\Carbon::now();
+            echo $mytime->format('Y'); ?> <a
+                    href="https://adminlte.io">{{ config('app.developer') }}</a>.</strong> All rights
             reserved.
         </footer>
     </div>
