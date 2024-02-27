@@ -35,6 +35,14 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name'=> 'required|string|max:255|min:3',
+            'parent_id' => [
+                'nullable' , 'integer' , 'exists:categories,id'
+            ],
+            'image' => 'image|max:1028576|dimensions:min_width=100,min_height=100',
+            'status' => 'in:active,archived',
+        ]);
         // $category = new Category;
 
         // $category->name = $request->post('name');
@@ -46,16 +54,16 @@ class CategoriesController extends Controller
 
         $data = $request->except('image');
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $path = $file->store('uploads', [
-                'disk' => 'public',
-            ]);
-            $data['image'] = $path;
+        // if ($request->hasFile('image')) {
+        //     $file = $request->file('image');
+        //     $path = $file->store('uploads', [
+        //         'disk' => 'public',
+        //     ]);
+            $data['image'] = $this->uploadImage($request);
             // $request->merge([
             //     $data['image'] => $path,
             // ]);
-        }
+        // }
 
 
         $category = Category::create($data);
@@ -102,18 +110,18 @@ class CategoriesController extends Controller
         $old_image = $category->image;
         $data = $request->except('image');
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $path = $file->store('uploads', [
-                'disk' => 'public',
-            ]);
-            $data['image'] = $path;
+        // if ($request->hasFile('image')) {
+        //     $file = $request->file('image');
+        //     $path = $file->store('uploads', [
+        //         'disk' => 'public',
+        //     ]);
+            $data['image'] = $this->uploadImage($request);
             // $request->merge([
             //     $data['image'] => $path,
             // ]);
-        }
+        // }
         $category->update($data);
-        if($old_image && isset($data['image'])){
+        if ($old_image && $data['image']) {
             Storage::disk('public')->delete($old_image);
         }
         return Redirect::route('dashboard.categories.index')->with('success', 'Category Updated!');
@@ -128,10 +136,23 @@ class CategoriesController extends Controller
         $category->delete();
         // Category::where('id' , $id)->delete();
         // Category::destroy($id);
-        if ($category->image){
+        if ($category->image) {
             Storage::disk('public')->delete($category->image);
         };
 
         return Redirect::route('dashboard.categories.index')->with('success', 'Category Deleted!');
+    }
+
+    protected function uploadImage(Request $request)
+    {
+        if (!$request->hasFile('image')) {
+            return;
+        } else {
+            $file = $request->file('image');
+            $path = $file->store('uploads', [
+                'disk' => 'public',
+            ]);
+            return $path;
+        }
     }
 }
