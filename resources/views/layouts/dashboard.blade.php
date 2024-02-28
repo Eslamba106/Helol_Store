@@ -212,7 +212,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
 
                 <!-- Sidebar Menu -->
-                @include('layouts.partials.nav', ['active' => 'dashoard'])
+                {{-- @include('layouts.partials.nav', ['active' => 'dashoard']) --}}
+                <x-dashboard.nav />
                 <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->

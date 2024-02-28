@@ -10,22 +10,18 @@
     <div class="mb-5">
         <a href="{{ route('dashboard.categories.create') }}" class="btn btn-sm btn-outline-primary">Create</a>
     </div>
-
-    @if (session()->has('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    @if (session()->has('fail'))
-        <div class="alert alert-danger">
-            {{ session('fail') }}
-        </div>
-    @endif
-    @if (session()->has('info'))
-        <div class="alert alert-info">
-            {{ session('info') }}
-        </div>
-    @endif
+<x-alert type="success"/>
+<x-alert type="info"/>
+<x-alert type="fail"/>
+<form action="{{ URL::current() }}" method="get" class="d-flex justify-content-between mb-4">
+    <x-form.input name="name" placeholder="Name" class="mx-2" :value="request('name')"/>
+    <select name="status" class="form-control mx-2">
+        <option value="">All</option>
+        <option value="active" @selected(request('status') == 'active')>Active</option>
+        <option value="archived" @selected(request('status') == 'archived')>Archived</option>
+    </select>
+    <button class="btn btn-dark mx-2">Filter</button>
+</form>
     <table class="table">
         <thead>
             <tr>
@@ -33,6 +29,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Parent</th>
+                <th>Status</th>
                 <th>Created At</th>
                 <th colspan="2">Operation</th>
             </tr>
@@ -45,6 +42,7 @@
                     <td>{{ $category->id }}</td>
                     <td>{{ $category->name }}</td>
                     <td>{{ $category->parent_id }}</td>
+                    <td>{{ $category->status }}</td>
                     <td>{{ $category->created_at }}</td>
                     <td>
                         <a href="{{ route('dashboard.categories.edit', $category->id) }}"
@@ -69,4 +67,5 @@
             @endif --}}
         </tbody>
     </table>
+    {{ $categories->withQueryString()->appends(['search' => 1])->links() }}
 @endsection

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\dashboard\CategoryRequest;
 
 class CategoriesController extends Controller
 {
@@ -16,7 +17,18 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $request = request();
+        // $query = Category::query();
+        // dd($query);
+        // if($name = $request->query('name')){
+        //     $query->where('name','like','%'.$name.'%');
+        // };
+        // if($status = $request->query('status')){
+        //     $query->where('status','=',$status);
+        // };
+        // dd($query);
+        $categories = Category::filter($request->query())->paginate();
+        // $categories = Category::status('archived')->paginate();
         return view('dashboard.categories.index', compact('categories'));
     }
 
@@ -29,41 +41,19 @@ class CategoriesController extends Controller
         $category = new Category();
         return view('dashboard.categories.create', compact('category', 'parents'));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $request->validate([
-            'name'=> 'required|string|max:255|min:3',
-            'parent_id' => [
-                'nullable' , 'integer' , 'exists:categories,id'
-            ],
-            'image' => 'image|max:1028576|dimensions:min_width=100,min_height=100',
-            'status' => 'in:active,archived',
-        ]);
-        // $category = new Category;
+        // $request->validate(Category::rules() , [
+        //     'required' => 'This field (:attribute) is required',
+        //     'unique'=> 'This (:attribute) is already exists!',
+        // ]);
 
-        // $category->name = $request->post('name');
-        // $category->parent_id = $request->post('parent_id');
-        // $category->save();
         $request->merge([
             'slug' => Str::slug($request->post('name')),
         ]);
 
         $data = $request->except('image');
-
-        // if ($request->hasFile('image')) {
-        //     $file = $request->file('image');
-        //     $path = $file->store('uploads', [
-        //         'disk' => 'public',
-        //     ]);
-            $data['image'] = $this->uploadImage($request);
-            // $request->merge([
-            //     $data['image'] => $path,
-            // ]);
-        // }
+        $data['image'] = $this->uploadImage($request);
 
 
         $category = Category::create($data);
@@ -104,8 +94,9 @@ class CategoriesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
+        // $request->validate(Category::rules($id));
         $category = Category::findOrFail($id);
         $old_image = $category->image;
         $data = $request->except('image');
@@ -115,13 +106,16 @@ class CategoriesController extends Controller
         //     $path = $file->store('uploads', [
         //         'disk' => 'public',
         //     ]);
-            $data['image'] = $this->uploadImage($request);
-            // $request->merge([
-            //     $data['image'] => $path,
-            // ]);
+        $new_image = $this->uploadImage($request);
+        if ($new_image) {
+            $data['image'] = $new_image;
+        }
+        // $request->merge([
+        //     $data['image'] => $path,
+        // ]);
         // }
         $category->update($data);
-        if ($old_image && $data['image']) {
+        if ($old_image && $new_image) {
             Storage::disk('public')->delete($old_image);
         }
         return Redirect::route('dashboard.categories.index')->with('success', 'Category Updated!');

@@ -14,5 +14,5 @@ Route::group([
      Route::get('/', [DashboardController::class , 'index'])
      ->middleware(['auth', 'verified'])
      ->name('dashboard');
-     Route::resource("/categories",CategoriesController::class)->middleware(['auth', 'verified']);
+     Route::resource("/categories",CategoriesController::class)->middleware(['auth', 'verified']); //->except('show');
 });
