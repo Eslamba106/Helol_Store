@@ -22,6 +22,5 @@ value="{{ old($name, $value )}}"
 
 
 
-{{-- @class(['form-control', --}}
 {{-- 'is-invalid' => $errors->has($name)]) --}}
  {{-- class="form-control @error('name') is-invalid @enderror" --}}

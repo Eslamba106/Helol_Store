@@ -18,6 +18,15 @@ class CategoriesController extends Controller
     public function index()
     {
         $request = request();
+        $categories = Category::leftJoin('categories as parents', 'parents.id', '=', 'categories.parent_id')
+            ->select([
+                'categories.*',
+                'parents.name as parent_name'
+            ])
+            ->filter($request->query())
+            ->orderBy('categories.name')
+            ->paginate();
+        return view('dashboard.categories.index', compact('categories'));
         // $query = Category::query();
         // dd($query);
         // if($name = $request->query('name')){
@@ -27,9 +36,7 @@ class CategoriesController extends Controller
         //     $query->where('status','=',$status);
         // };
         // dd($query);
-        $categories = Category::filter($request->query())->paginate();
         // $categories = Category::status('archived')->paginate();
-        return view('dashboard.categories.index', compact('categories'));
     }
 
     /**
@@ -115,9 +122,9 @@ class CategoriesController extends Controller
         // ]);
         // }
         $category->update($data);
-        if ($old_image && $new_image) {
-            Storage::disk('public')->delete($old_image);
-        }
+        // if ($old_image && $new_image) {
+        //     Storage::disk('public')->delete($old_image);
+        // }
         return Redirect::route('dashboard.categories.index')->with('success', 'Category Updated!');
     }
 
@@ -130,9 +137,9 @@ class CategoriesController extends Controller
         $category->delete();
         // Category::where('id' , $id)->delete();
         // Category::destroy($id);
-        if ($category->image) {
-            Storage::disk('public')->delete($category->image);
-        };
+        // if ($category->image) {
+        //     Storage::disk('public')->delete($category->image);
+        // };
 
         return Redirect::route('dashboard.categories.index')->with('success', 'Category Deleted!');
     }
@@ -148,5 +155,29 @@ class CategoriesController extends Controller
             ]);
             return $path;
         }
+    }
+
+    public function trash()
+    {
+        $categories = Category::onlyTrashed()->paginate();
+        return view('dashboard.categories.trash', compact(['categories']));
+    }
+
+    public function restore(Request $request, $id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->restore();
+        return redirect()->route('dashboard.categories.trash')
+            ->with('success', 'Categories Restored!');
+    }
+    public function forceDelete($id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->forceDelete();
+        return redirect()->route('dashboard.categories.trash')
+            ->with('success', 'Categories Deleted Forever!');
+        if ($category->image) {
+            Storage::disk('public')->delete($category->image);
+        };
     }
 }

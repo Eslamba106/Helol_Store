@@ -21,6 +21,6 @@ name="{{ $name }}"
 
 
 
-{{-- @class(['form-control', --}}
-{{-- 'is-invalid' => $errors->has($name)]) --}}
- {{-- class="form-control @error('name') is-invalid @enderror" --}}
+{{-- @class(['form-control' 
+ . 'is-invalid' => $errors->has($name)])
+class="form-control @error('name') is-invalid @enderror" --}}
