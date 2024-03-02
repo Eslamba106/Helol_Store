@@ -42,8 +42,8 @@
                     <td><img src="{{ asset('storage/' . $product->image) }}" height="50" alt=""></td>
                     <td>{{ $product->id }}</td>
                     <td>{{ $product->name }}</td>
-                    <td>{{ $product->category_id }}</td>
-                    <td>{{ $product->store_id}}</td>
+                    <td>{{ $product->category_name }}</td>
+                    <td>{{ $product->store_name}}</td>
                     <td>{{ $product->status }}</td>
                     <td>{{ $product->created_at }}</td>
                     <td>

@@ -14,19 +14,30 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+        // $products = Product::with(['category' , 'store'])->paginate();
+        $products = Product::select(
+            'products.*',
+            'stores.name as store_name',
+            'categories.name as category_name'
+        )
+        ->leftJoin('categories' , 'categories.id' , 'products.category_id')
+        ->leftJoin('stores' , 'stores.id' , 'products.store_id')
+        ->paginate();
+        return view('dashboard.products.index' , compact('products'));
+
+        // $user = Auth::user();
+        // $products = Product::with(['category' , 'store'])->paginate();
         // if($user->store_id){
 
             // $products = Product::where('store_id' , $user->store_id)->paginate();
         // }else{
-            $products = Product::paginate();
+            // $products = Product::paginate();
         // }
         // if($user->store_id == null){
         //     $products = Product::withoutGlobalScope('store')->paginate();
         // }else{
         //     $products = Product::paginate();
         // }
-        return view('dashboard.products.index' , compact('products'));
     }
 
     /**

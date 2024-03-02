@@ -61,4 +61,18 @@ class Category extends Model
             'status' => 'in:active,archived',
         ];
     }
+
+    public function products(){
+        return $this->hasMany(Product::class,'category_id','id');
+    }
+
+    public function parent (){
+        return $this->belongsTo(self::class,'parent_id','id')->withDefault([
+            "name" => "Main Category"
+        ]);
+    }
+
+    public function children (){
+        return $this->hasMany(self::class , 'parent_id' , 'id');
+    }
 }

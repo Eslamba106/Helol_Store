@@ -16,5 +16,11 @@ class Store extends Model
     // public $incrementing = true ;
     // public $timestamps = true;
     protected $table = 'stores';
-    protected $fillable = [] ;
+    protected $fillable = [ 'name', 'slug', 'description', 'logo_image', 'cover_image', 'status', 'created_at', 'updated_at'] ;
+
+    public function products(){
+        return $this->hasMany(Product::class , 'store_id' , 'id');
+    }
+
 }
+
