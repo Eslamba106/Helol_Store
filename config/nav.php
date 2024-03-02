@@ -14,4 +14,11 @@ return [
         "badge" => "Eslam",
         "active"=> "dashboard.categories.*",
     ],
+    [
+        "icon"  => "far fa-circle nav-icon",
+        "route" => "dashboard.products.index",
+        "title" => "Products",
+        // "badge" => "Eslam",
+        "active"=> "dashboard.products.*",
+    ],
 ];
