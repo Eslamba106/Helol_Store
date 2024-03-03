@@ -47,9 +47,6 @@
                 <x-form.input name="state" :value="$user->profile->state" />
             </div>
         </div>
-
-
-
         <div class="form-row">
             <div class="col-md-4">
                 <x-form.label>Postal Code</x-form.label>
@@ -61,11 +58,12 @@
             </div>
             <div class="col-md-4">
                 <x-form.label>Locale</x-form.label>
-                <x-form.select name="locale" :options="$locales" :selected="$user->profile->locale" />
+                <x-form.select name="locale" :options="$locales"  :selected="$user->profile->locale" />
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary mt-2">Save</button>
 
     </form>
 @endsection
+{{-- /* :value="$user->profile->locale" :value="$user->profile->country" */ --}}

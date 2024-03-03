@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use App\Models\Scopes\StoreScope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
@@ -34,4 +35,34 @@ class Product extends Model
     public function store(){
         return $this->belongsTo(Category::class,'store_id' , 'id');
     }
+
+    public function tags(){
+        return $this->belongsToMany(Tag::class , 'product_tag' , 'product_id' , 'tag_id' , 'id' , 'id');
+    }
+
+    public function scopeActive(Builder $builder){
+        $builder->where('status' , 'active');
+    }
+
+    // accessors
+
+    public function getImageUrlAttribute(){
+        if(!$this->image){
+            return "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+        }
+        if(Str::startsWith($this->image, ['http://' , 'https://'])){
+            return $this->image;
+        }
+
+        return asset('storage/' . $this->image);
+    }
+    public function getSalePercentAttribute(){
+        if(!$this->compare_price){
+            return 0;
+        }
+
+        return number_format(100 - (100 * $this->price / $this->compare_price) , 0);
+    
+}
+
 }

@@ -1,32 +1,25 @@
-{{-- @props([
-    'name' , 'value'=> '' , //'label'
-]) --}}
+@props([
+    'name' , 'options'  , 'selected'=> ''
+])
 
 <select 
 name="{{ $name }}" 
+{{-- class="form-control form-select" --}}
+    {{ $attributes->class([
+        'form-control',
+        'form-select',
+        'is-invalid' => $errors->has($name)
+    ]) 
+    }}
 
-class="form-control form-select"
-{{-- {{ $attributes->class([
-    'form-control',
-    'form-select',
-    // 'is-invalid' => $errors->has($name)
-]) }} --}}
-
-{{-- {{ $attributes->class([
-    'form-control',
-    'is-invalid' => $errors->has($name),
-]) }} --}}
 >
-@foreach ($options as $value => $text)
-    <option value="{{ $value }}" @selected($value == $selected)>{{ $text }}</option>
+<option value=""></option>
+@foreach ($options as $option_value => $option_text)
+    <option value="{{ $option_value }}" @selected($option_value == old($name , $selected))>{{ $option_text }}</option>
 @endforeach
-</select>
-{{-- <x-form.validation-feedback :name="$name" /> --}}
-@error($name)
-<div class="invalid-feedback">
-   {{ $message }}
-</div>
-@enderror
+</select> 
+<x-form.error :name="$name" />
+
 
 
 

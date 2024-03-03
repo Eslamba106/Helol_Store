@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
 
         // Store::factory(5)->create();
         // Category::factory(10)->create();
-        Product::factory(90)->create();
+        // Product::factory(90)->create();
         
         // \App\Models\User::factory(10)->create();
 

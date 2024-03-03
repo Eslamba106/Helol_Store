@@ -4,4 +4,4 @@
     ]
 )
 
-<lable for="{{ $id }}">{{ $slot }}</lable>
+<label for="{{ $id }}">{{ $slot }}</label>

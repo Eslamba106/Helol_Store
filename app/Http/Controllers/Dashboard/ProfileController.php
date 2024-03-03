@@ -15,8 +15,8 @@ class ProfileController extends Controller
         $user = Auth::user();
         return view("dashboard.profile.edit" , [
             "user"=> $user,
-            "countries" => Countries::getNames(),
-            'locales'   => Languages::getNames(),
+            "countries" => Countries::getNames('ar'),
+            'locales'   => Languages::getNames('ar'),
         ]);
 
     }
