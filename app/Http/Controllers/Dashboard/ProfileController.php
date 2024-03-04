@@ -28,7 +28,8 @@ class ProfileController extends Controller
             "last_name"=> "required|string|max:255",
             "birthday"=> "nullable|date|before:today",
             "gender"=> "in:male,female",
-            "country"=> "required|string|size:2"
+            "country"=> "required|string|size:2",
+            "locale"=> "required|string|size:2"
         ]);
         
         $user = $request->user();
