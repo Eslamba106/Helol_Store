@@ -5,9 +5,10 @@ use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\CategoriesController;
 use App\Http\Controllers\Dashboard\ProfileController;
+use App\Http\Middleware\CheckUserType;
 
 Route::group([
-    "middleware"=> ["auth" , "verified"],
+    "middleware"=> ["auth" , 'auth.type:admin,suber_admin'],
     "as"=> "dashboard.",
     "prefix" => "dashboard",
 ],
@@ -26,6 +27,6 @@ Route::group([
      Route::resource("/categories",CategoriesController::class)->middleware(['auth', 'verified']);
      Route::resource('/products' , ProductController::class); //->except('show');
 });
-// Route::get('products' , function (){
+// Route::post('paypal' , function (){
 //     return "Welcome Eslam";
-// })->name('dashboard.products.index');
+// })->name('paypal');

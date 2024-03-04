@@ -4,8 +4,12 @@
         @if($product->sale_percent)<span class="sale-tag">-{{ $product->sale_percent }}%</span>@endif
         @if($product->new)<span class="new-tag">New</span>@endif
         <div class="button">
-            <a href="{{ route('products.show' , $product->id) }}" class="btn"><i class="lni lni-cart"></i> Add to
-                Cart</a>
+            <form action="{{ route('cart.store')  }}" method="POST">
+                <input type="hidden" value="{{ $product->id }} " name="product_id">
+            @csrf
+            <button type="submit" class="btn"><i class="lni lni-cart"></i> Add to
+                Cart</button>
+            </form>
         </div>
     </div>
     <div class="product-info">
