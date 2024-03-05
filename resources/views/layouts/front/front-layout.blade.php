@@ -41,8 +41,10 @@
     <!-- Start Header Area -->
     <header class="header navbar-area">
         <!-- Start Topbar -->
+        <div class="container"></div>
         <div class="topbar">
-            <div class="container">
+            <div class="container-fluid" >
+                {{-- <div class="container"> --}}
                 <div class="row align-items-center">
                     <div class="col-lg-4 col-md-4 col-12">
                         <div class="top-left">
@@ -61,6 +63,8 @@
                                 </li>
                                 <li>
                                     <div class="select-position">
+                                        {{-- <x-form.select id="select5" name="country" :options="Symfony\Component\Intl\Languages::getNames('ar')" @if(Auth::user()):selected="$user->profile->country" @endif /> --}}
+
                                         <select id="select5">
                                             <option value="0" selected>English</option>
                                             <option value="1">Español</option>
@@ -88,19 +92,43 @@
                         <div class="top-end">
                             <div class="user">
                                 <i class="lni lni-user"></i>
+                                @if (Auth::user())
+                                <a href="{{ route('dashboard.profile.edit') }}"><p style="color: white">{{ Auth::user()->name }}</p> </a> 
+                                @else 
                                 Hello
+                                @endif
                             </div>
                             <ul class="user-login">
+                                @if(Auth::user() != null)
                                 <li>
-                                    <a href="login.html">Sign In</a>
+                                    <form action="{{ route('logout') }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn" style="color: white">Logout</button>
+                                    </form>
+                                    {{-- <a href="{{  }}">Logout</a> --}}
+                                </li>
+                                {{-- <li>
+                                    <a href="{{ route('dashboard.profile.edit') }}">{{ Auth::user()->name }}</a>
+                                </li> --}}
+                                <li>
+                                    @if(Auth::user()->type == 'admin' || Auth::user()->type =='suber_admin')
+                                    <a href="{{ route('dashboard.dashboard') }}">Dashboard</a>
+                                    @endif
+                                </li>
+                                @else
+                                <li>
+                                    <a href="{{ route('login') }}">Sign In</a>
                                 </li>
                                 <li>
-                                    <a href="register.html">Register</a>
+                                    <a href="{{ route('register') }}">Register</a>
                                 </li>
+                                @endif
+                      
                             </ul>
                         </div>
                     </div>
                 </div>
+            {{-- </div> --}}
             </div>
         </div>
         <!-- End Topbar -->
@@ -110,7 +138,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-3 col-md-3 col-7">
                         <!-- Start Header Logo -->
-                        <a class="navbar-brand" href="index.html">
+                        <a class="navbar-brand" href="{{ route('home') }}">
                             <img src="{{  asset('assets/images/logo/logo.svg')  }}" alt="Logo">
                         </a>
                         <!-- End Header Logo -->
@@ -158,57 +186,7 @@
                                         <span class="total-items">0</span>
                                     </a>
                                 </div>
-                                <div class="cart-items">
-                                    <a href="javascript:void(0)" class="main-btn">
-                                        <i class="lni lni-cart"></i>
-                                        <span class="total-items">2</span>
-                                    </a>
-                                    <!-- Shopping Item -->
-                                    <div class="shopping-item">
-                                        <div class="dropdown-cart-header">
-                                            <span>2 Items</span>
-                                            <a href="cart.html">View Cart</a>
-                                        </div>
-                                        <ul class="shopping-list">
-                                            <li>
-                                                <a href="javascript:void(0)" class="remove" title="Remove this item"><i
-                                                        class="lni lni-close"></i></a>
-                                                <div class="cart-img-head">
-                                                    <a class="cart-img" href="product-details.html"><img
-                                                            src="{{  asset('assets/images/header/cart-items/item1.jpg')  }}" alt="#"></a>
-                                                </div>
-
-                                                <div class="content">
-                                                    <h4><a href="product-details.html">
-                                                            Apple Watch Series 6</a></h4>
-                                                    <p class="quantity">1x - <span class="amount">$99.00</span></p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:void(0)" class="remove" title="Remove this item"><i
-                                                        class="lni lni-close"></i></a>
-                                                <div class="cart-img-head">
-                                                    <a class="cart-img" href="product-details.html"><img
-                                                            src="{{  asset('assets/images/header/cart-items/item2.jpg')  }}" alt="#"></a>
-                                                </div>
-                                                <div class="content">
-                                                    <h4><a href="product-details.html">Wi-Fi Smart Camera</a></h4>
-                                                    <p class="quantity">1x - <span class="amount">$35.00</span></p>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="bottom">
-                                            <div class="total">
-                                                <span>Total</span>
-                                                <span class="total-amount">$134.00</span>
-                                            </div>
-                                            <div class="button">
-                                                <a href="checkout.html" class="btn animate">Checkout</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--/ End Shopping Item -->
-                                </div>
+                               <x-front.cart-menu />
                             </div>
                         </div>
                     </div>
@@ -275,8 +253,8 @@
                                         <ul class="sub-menu collapse" id="submenu-1-2">
                                             <li class="nav-item"><a href="about-us.html">About Us</a></li>
                                             <li class="nav-item"><a href="faq.html">Faq</a></li>
-                                            <li class="nav-item active"><a href="login.html">Login</a></li>
-                                            <li class="nav-item"><a href="register.html">Register</a></li>
+                                            <li class="nav-item active"><a href="{{ route('login') }}">Login</a></li>
+                                            <li class="nav-item"><a href="{{ route('register') }}">Register</a></li>
                                             <li class="nav-item"><a href="mail-success.html">Mail Success</a></li>
                                             <li class="nav-item"><a href="404.html">404 Error</a></li>
                                         </ul>
@@ -289,7 +267,7 @@
                                             <li class="nav-item"><a href="product-grids.html">Shop Grid</a></li>
                                             <li class="nav-item"><a href="product-list.html">Shop List</a></li>
                                             <li class="nav-item"><a href="product-details.html">shop Single</a></li>
-                                            <li class="nav-item"><a href="cart.html">Cart</a></li>
+                                            <li class="nav-item"><a href="{{ route('cart.index') }}">Cart</a></li>
                                             <li class="nav-item"><a href="checkout.html">Checkout</a></li>
                                         </ul>
                                     </li>
@@ -357,7 +335,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-4 col-12">
                             <div class="footer-logo">
-                                <a href="index.html">
+                                <a href="{{ route('home') }}">
                                     <img src="{{  asset('assets/images/logo/white-logo.svg')  }}" alt="#">
                                 </a>
                             </div>
@@ -445,11 +423,17 @@
                             <div class="single-footer f-link">
                                 <h3>Shop Departments</h3>
                                 <ul>
-                                    <li><a href="javascript:void(0)">Computers & Accessories</a></li>
-                                    <li><a href="javascript:void(0)">Smartphones & Tablets</a></li>
-                                    <li><a href="javascript:void(0)">TV, Video & Audio</a></li>
-                                    <li><a href="javascript:void(0)">Cameras, Photo & Video</a></li>
-                                    <li><a href="javascript:void(0)">Headphones</a></li>
+                                    @php
+                                        $categories = App\Models\Category::take(5)->get();
+                                    @endphp
+                                    @foreach ($categories as $item)
+                                    <li><a href="javascript:void(0)">{{ $item->name }}</a></li>
+                                    @endforeach
+                                    {{-- <li><a href="javascript:void(0)">Computers & Accessories</a></li> --}}
+                                    {{-- <li><a href="javascript:void(0)">Smartphones & Tablets</a></li> --}}
+                                    {{-- <li><a href="javascript:void(0)">TV, Video & Audio</a></li> --}}
+                                    {{-- <li><a href="javascript:void(0)">Cameras, Photo & Video</a></li> --}}
+                                    {{-- <li><a href="javascript:void(0)">Headphones</a></li> --}}
                                 </ul>
                             </div>
                             <!-- End Single Widget -->
@@ -472,8 +456,8 @@
                         </div>
                         <div class="col-lg-4 col-12">
                             <div class="copyright">
-                                <p>Designed and Developed by<a href="https://graygrids.com/" rel="nofollow"
-                                        target="_blank">GrayGrids</a></p>
+                                <p>Designed and Developed by<a href="{{ config('app.developer_link') }}" rel="nofollow"
+                                        target="_blank">{{ config('app.developer') }}</a></p>
                             </div>
                         </div>
                         <div class="col-lg-4 col-12">

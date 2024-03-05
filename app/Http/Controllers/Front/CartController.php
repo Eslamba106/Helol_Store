@@ -14,17 +14,17 @@ use App\Repositories\Cart\CartRepositoryInterface;
 class CartController extends Controller
 {
     
-    protected $card ;
+    protected $cart ;
 
-    public function __construct(CartRepositoryInterface $card)
+    public function __construct(CartRepositoryInterface $cart)
     {
-        $this->card = $card;
+        $this->cart = $cart;
     }
     public function index()
     {
         // $items = $cart->get() ;
         // $items = $this->repo->get() ;
-        return view('front.card' , ['card'=>$this->card]);
+        return view('front.cart' , ['cart'=>$this->cart]);
     }
 
 public function show($id){}
@@ -35,44 +35,47 @@ public function show($id){}
             'quantity'   => ['nullable' , 'integer' , 'min:1'],
         ]);
         $product = Product::findOrFail($request->product_id);
+        // dd($product);
         $cart->add($product , $request->quantity ?? 1);
         return redirect()->route('cart.index')->with('success' , 'Product added! to cart!');
 
     }
 
 
-    public function update(Request $request, CartRepositoryInterface $cart)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'product_id' => ['required' , 'integer' , 'exists:products,id'],
-            'quantity'   => ['nullable' , 'integer' , 'min:1'],
+            'quantity'   => ['required' , 'integer' , 'min:1'],
         ]);
-        $product = Product::findOrFail($request->product_id);
+        // $product = Product::findOrFail($request->id);
 
-        $cart->update($product ,  $request->quantity);
-        return back()->with('message' , 'successfully Updated!');
+        $this->cart->update($id ,$request->quantity);
+        // return back()->with('message' , 'successfully Updated!');
 
 
     }
 
-    public function destroy(CartRepository $cart , $slug)
+    public function destroy($id)
     {
         // dd($cart);
-        $prod = Product::where('slug' , $slug)->first();
-        $id = Cart::where('product_id' ,$prod->id )->first();
-        // dd($id->id);
-        $cart->delete($id->id   );
-        return redirect()->back()->with('success' , 'successfully delete');
+        // $product = Product::where('slug' , $slug)->first();
+        // $cart_product = Cart::where('product_id' ,$product->id )->first();
+        $this->cart->delete($id);
+        return ['message' , 'successfully delete'];
 
     }
 
     public function empty(){
-        return $this->card->empty();
+        return $this->cart->empty();
     }
 
     public function total()
     {
-        return $this->card->total();
+        return $this->cart->total();
+    }
+    public function cartItemCount()
+    {
+        dd(count(collect($this->cart)));
     }
 
 }

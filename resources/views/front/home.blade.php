@@ -221,6 +221,7 @@
 
     <!-- Start Trending Product Area -->
     <section class="trending-product section">
+        {{-- <div class="container"></div> --}}
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -661,7 +662,7 @@
                             </div>
                         </div>
                         <div style="background: rgb(204, 24, 24);" class="alert">
-                            <h1 style="padding: 50px 80px;color: white;">We are sorry, Event ended ! </h1>
+                            <h1 style="padding: 20px 20px;color: white;">We are sorry, Event ended ! </h1>
                         </div>
                     </div>
                 </div>

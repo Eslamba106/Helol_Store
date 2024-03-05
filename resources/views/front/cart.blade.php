@@ -47,9 +47,9 @@
                 </div>
                 <!-- End Cart List Title -->
                 <!-- Cart Single List list -->
-                @foreach ($card->get() as $item)
+                @foreach ($cart->get() as $item)
                     
-                <div class="cart-single-list">
+                <div class="cart-single-list" id="{{ $item->id }}">
                     <div class="row align-items-center">
                         <div class="col-lg-1 col-md-1 col-12">
                             <a href="{{ route('products.show' , $item->product->slug) }}"><img src="{{ $item->product->image_url }}" alt="#"></a>
@@ -61,16 +61,12 @@
                                 <span><em>Color:</em> Black</span>
                             </p>
                         </div>
+                        {{-- <div class="col-lg-2 col-md-2 col-12">
+                            <p>{{ Currency::format($item->product->price) }}</p>
+                        </div> --}}
                         <div class="col-lg-2 col-md-2 col-12">
                             <div class="count-input">
-                                <input class="form-control" value="{{ $item->quantity }}"></input>
-                                {{-- <select class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select> --}}
+                                <input class="form-control item-quantity" data-id="{{ $item->id }}" value="{{ $item->quantity }}"></input>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-12">
@@ -84,7 +80,7 @@
                                 {{-- @csrf --}}
                                 {{-- @method('delete') --}}
                                 {{-- <button type="submit"  href="{{ route('cart.destroy' , $item->product->id) }}"><a class="remove-item"><i class="lni lni-close"></i></a></button> --}}
-                            <a class="remove-item" href="{{ route('card.delete' , $item->product->slug) }}"><i class="lni lni-close"></i></a>
+                            <a class="remove-item" data-id="{{ $item->id }}" href="#"><i class="lni lni-close"></i></a>
                         {{-- </form> --}}
 
                         </div>
@@ -115,7 +111,7 @@
                             <div class="col-lg-4 col-md-6 col-12">
                                 <div class="right">
                                     <ul>
-                                        <li>Cart Subtotal<span>{{ Currency::format($card->total()) }}</span></li>
+                                        <li>Cart Subtotal<span>{{ Currency::format($cart->total()) }}</span></li>
                                         <li>Shipping<span>Free</span></li>
                                         <li>You Save<span>$29.00</span></li>
                                         <li class="last">You Pay<span>$2531.00</span></li>
@@ -133,4 +129,13 @@
             </div>
         </div>
     </div>
+    @push('scripts')
+    <script>
+        const csrf_token = "{{ csrf_token() }}";
+        // const method = "{{ csrf_token() }}";
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="{{ asset('js/cart.js') }}"></script>
+    @endpush
+    {{-- @vite('js/cart.js') --}}
 </x-front.front-layout>

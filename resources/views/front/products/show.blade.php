@@ -106,12 +106,12 @@
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-12">
                                             <div class="wish-button">
-                                                <button class="btn"><i class="lni lni-reload"></i> Compare</button>
+                                                <a href="#" class="btn"><i class="lni lni-reload"></i> Compare</a>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-12">
                                             <div class="wish-button">
-                                                <button class="btn"><i class="lni lni-heart"></i> To Wishlist</button>
+                                                <a href="#" class="btn"><i class="lni lni-heart"></i> To Wishlist</a>
                                             </div>
                                         </div>
                                     </div>

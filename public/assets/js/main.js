@@ -27,7 +27,8 @@ Author: GrayGrids
         var backToTo = document.querySelector(".scroll-top");
         if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
             backToTo.style.display = "flex";
-        } else {
+        } 
+        else {
             backToTo.style.display = "none";
         }
     };

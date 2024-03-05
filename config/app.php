@@ -17,7 +17,8 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-    'developer' => env('DEVELOPER_NAME', 'Eslam Badawy'),
+    'developer' => env('APP_DEVELOPER_NAME', 'Eslam Badawy'),
+    'developer_link' => env('APP_DEVELOPER_LINK', 'https://mostaql.com/u/Eslamba106'),
 
     /*
     |--------------------------------------------------------------------------
