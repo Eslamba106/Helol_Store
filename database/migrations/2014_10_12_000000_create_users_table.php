@@ -18,15 +18,15 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone_number')->nullable()->unique();
-            $table->foreignId('store_id')->nullable()->constrained('stores')->nullOnDelete();
+            // $table->foreignId('store_id')->nullable()->constrained('stores')->nullOnDelete();
             $table->rememberToken();
             $table->timestamps();
         });
-        Schema::table('users', function($table) {
-            $table->foreign('store_id')->references('id')->on('stores')->nullOnDelete();
-            // $table->foreignId('store_id')->nullable()->constrained('stores')->nullOnDelete();
+        // Schema::table('users', function($table) {
+        //     $table->foreign('store_id')->references('id')->on('stores')->nullOnDelete();
+        //     // $table->foreignId('store_id')->nullable()->constrained('stores')->nullOnDelete();
 
-          });
+        //   });
     }
 
     /**
@@ -35,8 +35,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('store_id');
-        });
     }
 };

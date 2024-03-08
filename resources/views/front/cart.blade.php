@@ -49,7 +49,7 @@
                 <!-- Cart Single List list -->
                 @foreach ($cart->get() as $item)
                     
-                <div class="cart-single-list" id="{{ $item->id }}">
+                <div class="cart-single-list"  id="{{ $item->id }}" >
                     <div class="row align-items-center">
                         <div class="col-lg-1 col-md-1 col-12">
                             <a href="{{ route('products.show' , $item->product->slug) }}"><img src="{{ $item->product->image_url }}" alt="#"></a>
@@ -80,7 +80,7 @@
                                 {{-- @csrf --}}
                                 {{-- @method('delete') --}}
                                 {{-- <button type="submit"  href="{{ route('cart.destroy' , $item->product->id) }}"><a class="remove-item"><i class="lni lni-close"></i></a></button> --}}
-                            <a class="remove-item" data-id="{{ $item->id }}" href="#"><i class="lni lni-close"></i></a>
+                            <a class="remove-item" data-id="{{ $item->id }}" href="javascript:void(0)"><i class="lni lni-close"></i></a>
                         {{-- </form> --}}
 
                         </div>

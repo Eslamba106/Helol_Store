@@ -50,7 +50,7 @@ public function show($id){}
         // $product = Product::findOrFail($request->id);
 
         $this->cart->update($id ,$request->quantity);
-        // return back()->with('message' , 'successfully Updated!');
+        return back()->with('message' , 'successfully Updated!');
 
 
     }
@@ -73,9 +73,9 @@ public function show($id){}
     {
         return $this->cart->total();
     }
-    public function cartItemCount()
-    {
-        dd(count(collect($this->cart)));
-    }
+    // public function cartItemCount()
+    // {
+    //     dd(count(collect($this->cart)));
+    // }
 
 }
