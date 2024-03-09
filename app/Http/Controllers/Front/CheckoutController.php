@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use Throwable;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Events\OrderCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -32,7 +33,14 @@ class CheckoutController extends Controller
 
     public function store(Request $request, CartRepositoryInterface $cart)
     {
-        $request->validate([]);
+        $request->validate([
+            'addr.billing.first_name'=>['string' , 'required' , 'max:255'],
+            'addr.billing.last_name'=>['string' , 'required' , 'max:255'],
+            'addr.billing.email'=>['string' , 'required', 'max:255'],
+            'addr.billing.phone_number'=>['string' , 'required', 'max:255'],
+            'addr.billing.city'=>['string' , 'required', 'max:255'],
+
+        ]);
 
         $items = $cart->get()->groupBy('product.store_id')->all();
         // $items->groupBy('product.store_id');
@@ -64,7 +72,7 @@ class CheckoutController extends Controller
             }
         // $cart->empty();
             DB::commit();
-            event('order.created');
+            event(new OrderCreated($order));
         } catch (Throwable $e) {
             DB::rollBack();
             throw $e;
