@@ -6,6 +6,7 @@ use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 
 class OrderCreatedNotification extends Notification
@@ -13,12 +14,14 @@ class OrderCreatedNotification extends Notification
     use Queueable;
 
     Protected $order;
+    Protected $addr;
     /**
      * Create a new notification instance.
      */
     public function __construct(Order $order)
     {
         $this->order = $order;
+        $this->addr = $this->order->billingAddress;
     }
 
     /**
@@ -28,7 +31,7 @@ class OrderCreatedNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail' , 'database'];
+        return ['mail' , 'database' , 'broadcast'];
         // $channels = ['database'];
         // if($notifiable->notification_preferences['order_created']['sms'] ?? false){
         //     $channels[]='vonage';
@@ -66,6 +69,16 @@ class OrderCreatedNotification extends Notification
             'url'  => url('/dashboard'),
             'order_id' => $this->order->id
         ];
+    }
+
+    public function toBroadcast($notifiable){
+        // $addr = $this->order->billingAddress;
+        return new BroadcastMessage([
+            'body' => "A new Order #({$this->order->number} Created By #({$this->addr->name}",
+            'icon' => 'fas fa-file',
+            'url'  => url('/dashboard'),
+            'order_id' => $this->order->id
+        ]);
     }
 
     /**

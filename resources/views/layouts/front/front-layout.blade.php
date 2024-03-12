@@ -268,7 +268,7 @@
                                             <li class="nav-item"><a href="product-list.html">Shop List</a></li>
                                             <li class="nav-item"><a href="product-details.html">shop Single</a></li>
                                             <li class="nav-item"><a href="{{ route('cart.index') }}">Cart</a></li>
-                                            <li class="nav-item"><a href="checkout.html">Checkout</a></li>
+                                            <li class="nav-item"><a href="{{ route('checkout') }}">Checkout</a></li>
                                         </ul>
                                     </li>
                                     <li class="nav-item">
