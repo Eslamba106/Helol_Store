@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Throwable;
 
 class DeductProductQuantity
 {
@@ -23,6 +24,7 @@ class DeductProductQuantity
      */
     public function handle()
     {
+        try{
         foreach(Cart::get() as $item){
             // dd($item);
             Product::where('id' ,'=', $item->product_id)
@@ -31,5 +33,8 @@ class DeductProductQuantity
                 'quantity' => DB::raw("quantity - {$item->quantity}"),
             ]);
         }
+    }catch(Throwable $e){
+        
+    }
     }
 }

@@ -28,7 +28,7 @@ class OrderCreatedNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail' , 'database'];
         // $channels = ['database'];
         // if($notifiable->notification_preferences['order_created']['sms'] ?? false){
         //     $channels[]='vonage';
@@ -49,7 +49,6 @@ class OrderCreatedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         $addr = $this->order->billingAddress;
-        // dd($addr->name);
         $mailler = config('app.name');
         return (new MailMessage)
                     ->subject("New Order #({$this->order->number}")
@@ -57,6 +56,16 @@ class OrderCreatedNotification extends Notification
                     ->line("A new Order #({$this->order->number} Created By #({$addr->name}")
                     ->action('View Order', url('/dashboard'))
                     ->line("Thank you for using {$mailler} ");
+    }
+    public function toDatabase(object $notifiable)
+    {
+        $addr = $this->order->billingAddress;
+        return [
+            'body' => "A new Order #({$this->order->number} Created By #({$addr->name}",
+            'icon' => 'fas fa-file',
+            'url'  => url('/dashboard'),
+            'order_id' => $this->order->id
+        ];
     }
 
     /**
