@@ -8,9 +8,10 @@ use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Middleware\CheckUserType;
 
 Route::group([
-    "middleware"=> ["auth" , 'auth.type:admin,suber_admin'],
+    "middleware"=> ["auth:admin"],
+    // "middleware"=> ["auth" , 'auth.type:admin,suber_admin'],
     "as"=> "dashboard.",
-    "prefix" => "dashboard",
+    "prefix" => "admin/dashboard",
 ],
  function () {
 

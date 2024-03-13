@@ -92,14 +92,18 @@
                         <div class="top-end">
                             <div class="user">
                                 <i class="lni lni-user"></i>
-                                @if (Auth::user())
-                                <a href="{{ route('dashboard.profile.edit') }}"><p style="color: white">{{ Auth::user()->name }}</p> </a> 
+                                @if (Auth::guard('admin')->user() || Auth::guard('web')->user() )
+                                {{-- @auth --}}
+                                    
+                                <a href="{{ route('dashboard.profile.edit') }}"><p style="color: white">{{ Auth::guard('admin')->user()->name ?? Auth::guard('web')->user()->name}}</p> </a> 
                                 @else 
+                                {{-- @endauth --}}
+
                                 Hello
                                 @endif
                             </div>
                             <ul class="user-login">
-                                @if(Auth::user() != null)
+                                @if(Auth::guard('admin')->user() != null ?? Auth::guard('web')->user() != null)
                                 <li>
                                     <form action="{{ route('logout') }}" method="post">
                                     @csrf
@@ -111,7 +115,8 @@
                                     <a href="{{ route('dashboard.profile.edit') }}">{{ Auth::user()->name }}</a>
                                 </li> --}}
                                 <li>
-                                    @if(Auth::user()->type == 'admin' || Auth::user()->type =='suber_admin')
+                                    {{-- @if(Auth::user()->type == 'admin' || Auth::user()->type =='suber_admin') --}}
+                                    @if(Auth::guard('admin')->user())
                                     <a href="{{ route('dashboard.dashboard') }}">Dashboard</a>
                                     @endif
                                 </li>
