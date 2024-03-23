@@ -98,9 +98,9 @@ class CartRepository implements CartRepositoryInterface
     }
     public function update($id, $quantity = 1)
     {
-        $item = Cart::where('product_id', $id)
+        $item = Cart::where('product_id', $id)->first();
             // ->cookie_id()
-            ->update([
+            $item->update([
                 'quantity' => $quantity,
             ]);
         return $item;
@@ -110,7 +110,7 @@ class CartRepository implements CartRepositoryInterface
     {
         $item = Cart::where('id', $id)
             ->first(); //->cookie_id()
-        return $item->destroy($id);
+        $item->destroy($id);
     }
 
     public function empty()

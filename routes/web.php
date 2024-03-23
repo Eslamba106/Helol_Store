@@ -42,6 +42,8 @@ Route::get('/' , [HomeController::class , 'index'])->name('home');
 Route::get('/products' , [ProductsController::class , 'index'])->name('products.index');
 Route::get('/products/{product:slug}' , [ProductsController::class , 'show'])->name('products.show');
 Route::resource('/cart' , CartController::class);
+// Route::post('/cart/{cart}' , [CartController::class , 'update' ]);
+// Route::post('/cart/{id}' , [CartController::class , 'delete' ]);
 // Route::get('/cart/count' , [CartController::class , 'cartItemCount']);
 Route::get('/cart/delete/{slug}' , [CartController::class , 'destroy'])->name('card.delete');
 Route::get('/checkout' , [CheckoutController::class , 'create'])->name('checkout');

@@ -61,7 +61,7 @@ public function show($id){}
         // $product = Product::where('slug' , $slug)->first();
         // $cart_product = Cart::where('product_id' ,$product->id )->first();
         $this->cart->delete($id);
-        return ['message' , 'successfully delete'];
+        return response()->json(['message' =>'successfully delete' , 'tr' => "tr_".$id ]);
 
     }
 

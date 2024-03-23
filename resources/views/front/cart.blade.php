@@ -49,7 +49,7 @@
                 <!-- Cart Single List list -->
                 @foreach ($cart->get() as $item)
                     
-                <div class="cart-single-list"  id="{{ $item->id }}" >
+                <div class="cart-single-list" id="tr_{{ $item->id }}" >
                     <div class="row align-items-center">
                         <div class="col-lg-1 col-md-1 col-12">
                             <a href="{{ route('products.show' , $item->product->slug) }}"><img src="{{ $item->product->image_url }}" alt="#"></a>
@@ -66,7 +66,7 @@
                         </div> --}}
                         <div class="col-lg-2 col-md-2 col-12">
                             <div class="count-input">
-                                <input class="form-control item-quantity" data-id="{{ $item->id }}" value="{{ $item->quantity }}"></input>
+                                <input class="form-control item-quantity" data-id="{{ $item->product_id }}" value="{{ $item->quantity }}"></input>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-12">
@@ -135,8 +135,8 @@
         // const method = "{{ csrf_token() }}";
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        {{-- <script src="{{ asset('js/cart.js') }}"></script> --}}
-        <script src="{{ asset('build/assets/cart.js') }}"></script>
+        <script src="{{ asset('javascript/cart.js') }}"></script>
+        {{-- <script src="{{ asset('build/assets/cart.js') }}"></script> --}}
     @endpush
     {{-- @vite('js/cart.js') --}}
 </x-front.front-layout>
