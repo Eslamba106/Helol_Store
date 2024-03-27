@@ -103,7 +103,7 @@
                                 @endif
                             </div>
                             <ul class="user-login">
-                                @if(Auth::guard('admin')->user() != null ?? Auth::guard('web')->user() != null)
+                                @if(Auth::guard('admin')->user() != null || Auth::guard('web')->user() != null)
                                 <li>
                                     <form action="{{ route('logout') }}" method="post">
                                     @csrf

@@ -16,12 +16,17 @@ class CheckUserType
     public function handle(Request $request, Closure $next , ...$types): Response
     {
         $user = $request->user();
+        return $request;
+        // dd($user);/
         if(!$user){
-            return redirect()->route('login');
+            dd($request);
+            return redirect()->route('admin.login-page');
         }
-        if(!in_array($user->type ,$types)){
+        if($user){
+            
+        // if(!in_array($user->type ,$types)){
             return abort(403);
         }
-        return $next($request);
+        // return $next($request);
     }
 }

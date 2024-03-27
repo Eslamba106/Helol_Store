@@ -14,13 +14,13 @@ value="{{ old($name, $value )}}"
     'is-invalid' => $errors->has($name),
 ]) }}
 >
-{{-- @error($name)
+@error($name)
 <div class="invalid-feedback">
    {{ $message }}
 </div>
-@enderror --}}
+@enderror
 
-<x-form.error :name="$name" />
+{{-- <x-form.error :name="$name" /> --}}
 
 
 {{-- 'is-invalid' => $errors->has($name)]) --}}

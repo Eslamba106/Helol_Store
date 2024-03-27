@@ -17,14 +17,27 @@ class RedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
+        // $guards = empty($guards) ? [null] : $guards;
+
+        // foreach ($guards as $guard) {
+        //     if (Auth::guard($guard)->check()) {
+        //         return redirect(RouteServiceProvider::HOME);
+        //     }
+        // }
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                if ($request->is('admin') || $request->is('admin/*')) {
+                    // redirect for backend
+                    return redirect(RouteServiceProvider::Admin);
+                } else {
+                    // redirect for frontend in case front
+                    // return redirect(RouteServiceProvider::HOME);
+                    return redirect(RouteServiceProvider::HOME);
+                }
             }
         }
-
         return $next($request);
     }
 }

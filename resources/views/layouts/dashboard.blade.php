@@ -163,7 +163,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                     <div class="info">
                         <a href="{{ route('dashboard.profile.edit') }}" class="d-block">{{ Auth::user()->name }}</a>
-                        <form action="{{ route('logout') }}" method="post">
+                        <form action="{{ route('admin.logout') }}" method="post">
                             @csrf
                             {{-- <input type="hidden" name="_token" value="{{ csrf_token() }}"> --}}
                             {{-- {{ csrf_field() }} --}}
@@ -243,8 +243,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 Anything you want
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2023-<?php $mytime = Carbon\Carbon::now();
-            echo $mytime->format('Y'); ?> <a
+            <strong>Copyright <a
                     href="https://adminlte.io">{{ config('app.developer') }}</a>.</strong> All rights
             reserved.
         </footer>

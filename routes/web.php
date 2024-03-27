@@ -7,6 +7,7 @@ use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\ProductsController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,5 +49,14 @@ Route::resource('/cart' , CartController::class);
 Route::get('/cart/delete/{slug}' , [CartController::class , 'destroy'])->name('card.delete');
 Route::get('/checkout' , [CheckoutController::class , 'create'])->name('checkout');
 Route::post('/checkout' , [CheckoutController::class , 'store']);
+
+
+// login and register
+Route::get('/register' , [LoginController::class , 'registerPage'])->middleware('guest')->name('register-page');
+Route::post('/register' , [LoginController::class , 'register'])->middleware('guest')->name('register');
+Route::get('/login' , [LoginController::class , 'loginPage'])->middleware('guest')->name('login-page');
+Route::post('/login' , [LoginController::class , 'login'])->middleware('guest')->name('login');
+Route::post('/logout' , [LoginController::class , 'logout'])->middleware('auth')->name('logout');
+
 // require __DIR__.'/auth.php';
 require __DIR__.'/dashboard.php';

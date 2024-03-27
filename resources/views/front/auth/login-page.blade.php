@@ -28,9 +28,9 @@
                                 <div class="alt-option">
                                     <span>Or</span>
                                 </div>
-                                @if($errors->has(config('fortify.username')))
+                                @if ($errors->has('loginError'))
                                 <div class="alert alert-danger">
-                                    {{ $errors->first(config('fortify.username')) }}
+                                    {{ $errors->first('loginError') }}
                                 </div>
                                 @endif
                                 <div class="form-group input-group">
